@@ -15,9 +15,9 @@ if ($appsOnServer) {
         }
     }
     // If everything is disabled, we do not want to restrict
-    //if ($allDisabled) {
-    //    exit;
-    //}
+    if ($allDisabled) {
+       exit;
+    }
     $appsOnServer['Finder'] = array('appName' => 'Finder', 'enabled' => 1); // make sure finder is always allowed
     $appsOnServer['Terminal'] = array('appName' => 'Terminal', 'enabled' => 1); // make sure finder is always allowed
 } else {
