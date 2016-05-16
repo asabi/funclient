@@ -1,7 +1,9 @@
 #!/usr/bin/php
 
 <?php
-define('SERVERLOCATION', '');
+require_once(__DIR__'/config.php');
+
+define('SERVERLOCATION', $server);
 //define('SERVERLOCATION', 'http://localhost:8000');
 $appsOnServer = serverRequest('q=getAll');
 if ($appsOnServer) {
@@ -13,9 +15,9 @@ if ($appsOnServer) {
         }
     }
     // If everything is disabled, we do not want to restrict
-    if ($allDisabled) {
-        exit;
-    }
+    //if ($allDisabled) {
+    //    exit;
+    //}
     $appsOnServer['Finder'] = array('appName' => 'Finder', 'enabled' => 1); // make sure finder is always allowed
     $appsOnServer['Terminal'] = array('appName' => 'Terminal', 'enabled' => 1); // make sure finder is always allowed
 } else {
@@ -52,7 +54,7 @@ function serverRequest($queryString) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, SERVERLOCATION."?".$queryString);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_COOKIE, 'restrict=');
+    curl_setopt($ch, CURLOPT_COOKIE, 'restrict=lets rock');
     curl_setopt($ch, CURLOPT_HEADER, false);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $output = curl_exec($ch);
