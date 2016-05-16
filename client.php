@@ -1,7 +1,7 @@
 #!/usr/bin/php
 
 <?php
-require_once(__DIR__'/config.php');
+require_once(__DIR__.'/config.php');
 
 define('SERVERLOCATION', $server);
 //define('SERVERLOCATION', 'http://localhost:8000');
