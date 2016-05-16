@@ -4,6 +4,8 @@
 require_once(__DIR__.'/config.php');
 
 define('SERVERLOCATION', $server);
+define('COOKIEVALUE', $cookieValue);
+
 //define('SERVERLOCATION', 'http://localhost:8000');
 $appsOnServer = serverRequest('q=getAll');
 if ($appsOnServer) {
@@ -16,6 +18,7 @@ if ($appsOnServer) {
     }
     // If everything is disabled, we do not want to restrict
     if ($allDisabled) {
+      $result = serverRequest('q=completedPassDisabled');
        exit;
     }
     $appsOnServer['Finder'] = array('appName' => 'Finder', 'enabled' => 1); // make sure finder is always allowed
@@ -36,11 +39,16 @@ foreach ($runningApps as $appName) {
         if (!isset($appsOnServer[$appName])) {
             logApp($appName);
         }
-        error_log("\n".$appName,3,'/var/tmp/restrict_log.txt');
+        error_log("\n".$appName.' '.date('Y-m-d H:i:s'),3,'/var/tmp/restrict_log.txt');
         //echo "killing $appName\n";
         passthru('/usr/bin/killall "'.$appName.'"');
     }
 }
+
+$result = serverRequest('q=completedPass');
+
+
+
 function isOKToRun($appName,$appsOnServer) {
     if (isset($appsOnServer[$appName]['enabled']) && $appsOnServer[$appName]['enabled']) {
         return true;
@@ -54,7 +62,7 @@ function serverRequest($queryString) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, SERVERLOCATION."?".$queryString);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_COOKIE, 'restrict=lets rock');
+    curl_setopt($ch, CURLOPT_COOKIE, 'restrict='.COOKIEVALUE);
     curl_setopt($ch, CURLOPT_HEADER, false);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $output = curl_exec($ch);
