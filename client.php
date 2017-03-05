@@ -1,8 +1,20 @@
 #!/usr/bin/php
 <?php
-// Add as a cron job:
-// * * * * * /usr/bin/php /Volumes/Private/www_sabi_me/restrictor/funclient/client.php
-// * */2 * * * /Volumes/Private/www_sabi_me/restrictor/funclient/pull.sh
+// To install:
+//
+// git clone https://github.com/asabi/funclient.git
+// cp client.template.php client.php
+// update the client name (unique and case sensitive)
+
+// ALON: Add the client on the server site config file
+
+// Add as a cron job for updating remotely
+// * */1 * * * /Volumes/Private/www_sabi_me/restrictor/funclient/pull.sh
+
+// Execute sudo install.php to install the service
+
+// On the parent phone device add the website to the home screen
+
 
 date_default_timezone_set('America/Vancouver');
 require_once(__DIR__.'/config.php');
@@ -56,7 +68,10 @@ foreach ($runningApps as $appName) {
     }
 }
 
-$result = serverRequest('q=completedPass');
+// https://developer.apple.com/library/content/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html#//apple_ref/doc/uid/TP40001762-104142
+// To make sure that osX does not think that the process died
+
+sleep(11);
 
 
 
