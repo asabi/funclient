@@ -1,5 +1,9 @@
 #!/usr/bin/php
 <?php
+// Add as a cron job:
+// * * * * * /usr/bin/php /Volumes/Private/www_sabi_me/restrictor/funclient/client.php
+// * */2 * * * /Volumes/Private/www_sabi_me/restrictor/funclient/pull.sh
+
 date_default_timezone_set('America/Vancouver');
 require_once(__DIR__.'/config.php');
 
